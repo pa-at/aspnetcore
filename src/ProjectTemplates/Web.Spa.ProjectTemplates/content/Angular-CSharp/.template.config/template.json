@@ -12,7 +12,13 @@
   "preferNameDirectory": true,
   "primaryOutputs": [
     {
-      "path": "Company.WebApplication1.csproj"
+      "path": "Company.WebApplication1.sln"
+    },
+    {
+      "path": "Server/Company.WebApplication1.csproj"
+    },
+    {
+      "path": "Client/Company.WebApplication1.Client.njsproj"
     }
   ],
   "shortName": "angular",
@@ -25,47 +31,47 @@
         ".template.config/**"
       ],
       "copyOnly": [
-        "wwwroot/**"
+        "Server/wwwroot/**"
       ],
       "modifiers": [
         {
           "condition": "(!IndividualLocalAuth)",
           "exclude": [
-            "Pages/Shared/_LoginPartial.cshtml",
-            "Data/**",
-            "Models/**",
-            "ClientApp/src/api-authorization/**",
-            "Controllers/OidcConfigurationController.cs"
+            "Server/Pages/Shared/_LoginPartial.cshtml",
+            "Server/Data/**",
+            "Server/Models/**",
+            "Client/src/api-authorization/**",
+            "Server/Controllers/OidcConfigurationController.cs"
           ]
         },
         {
           "condition": "(!IndividualLocalAuth || UseLocalDB)",
           "exclude": [
-            "app.db"
+            "Server/app.db"
           ]
         },
         {
           "condition": "(ExcludeLaunchSettings)",
           "exclude": [
-            "Properties/launchSettings.json"
+            "Server/Properties/launchSettings.json"
           ]
         },
         {
           "condition": "(IndividualLocalAuth && UseLocalDB)",
           "rename": {
-            "Data/SQLServer/": "Data/Migrations/"
+            "Server/Data/SQLServer/": "Server/Data/Migrations/"
           },
           "exclude": [
-            "Data/SQLite/**"
+            "Server/Data/SQLite/**"
           ]
         },
         {
           "condition": "(IndividualLocalAuth && !UseLocalDB)",
           "rename": {
-            "Data/SQLite/": "Data/Migrations/"
+            "Server/Data/SQLite/": "Server/Data/Migrations/"
           },
           "exclude": [
-            "Data/SQLServer/**"
+            "Server/Data/SQLServer/**"
           ]
         }
       ]
