@@ -14,7 +14,7 @@
   "profiles": {
     "Company.WebApplication1": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       //#if(!RequiresHttps)
       "applicationUrl": "http://localhost:5000",
       //#else
