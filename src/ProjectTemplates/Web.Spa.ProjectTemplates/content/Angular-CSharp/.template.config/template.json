@@ -12,13 +12,7 @@
   "preferNameDirectory": true,
   "primaryOutputs": [
     {
-      "path": "Company.WebApplication1.sln"
-    },
-    {
-      "path": "Server/Company.WebApplication1.csproj"
-    },
-    {
-      "path": "Client/Company.WebApplication1.Client.njsproj"
+      "path": "Company.WebApplication1.csproj"
     }
   ],
   "shortName": "angular",
@@ -31,47 +25,47 @@
         ".template.config/**"
       ],
       "copyOnly": [
-        "Server/wwwroot/**"
+        "wwwroot/**"
       ],
       "modifiers": [
         {
           "condition": "(!IndividualLocalAuth)",
           "exclude": [
-            "Server/Pages/Shared/_LoginPartial.cshtml",
-            "Server/Data/**",
-            "Server/Models/**",
+            "Pages/Shared/_LoginPartial.cshtml",
+            "Data/**",
+            "Models/**",
             "Client/src/api-authorization/**",
-            "Server/Controllers/OidcConfigurationController.cs"
+            "Controllers/OidcConfigurationController.cs"
           ]
         },
         {
           "condition": "(!IndividualLocalAuth || UseLocalDB)",
           "exclude": [
-            "Server/app.db"
+            "app.db"
           ]
         },
         {
           "condition": "(ExcludeLaunchSettings)",
           "exclude": [
-            "Server/Properties/launchSettings.json"
+            "Properties/launchSettings.json"
           ]
         },
         {
           "condition": "(IndividualLocalAuth && UseLocalDB)",
           "rename": {
-            "Server/Data/SQLServer/": "Server/Data/Migrations/"
+            "Data/SQLServer/": "Data/Migrations/"
           },
           "exclude": [
-            "Server/Data/SQLite/**"
+            "Data/SQLite/**"
           ]
         },
         {
           "condition": "(IndividualLocalAuth && !UseLocalDB)",
           "rename": {
-            "Server/Data/SQLite/": "Server/Data/Migrations/"
+            "Data/SQLite/": "Data/Migrations/"
           },
           "exclude": [
-            "Server/Data/SQLServer/**"
+            "Data/SQLServer/**"
           ]
         }
       ]
