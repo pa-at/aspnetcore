@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(DefaultNetCoreTargetFramework)</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RemoveDevicePlatformSupport>true</RemoveDevicePlatformSupport>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Hosting"/>
+    <None Update="build\Microsoft.AspNetCore.SpaProxy.targets" Pack="true" PackagePath="build\Microsoft.AspNetCore.SpaProxy.targets" />
+  </ItemGroup>
+
+  <Target Name="_PrepareForPack" BeforeTargets="_GetPackageFiles">
+    <ItemGroup>
+      <None Include="@(IntermediateAssembly)" Pack="true" PackagePath="assets/Microsoft.AspNetCore.SpaProxy.dll" />
+    </ItemGroup>
+  </Target>
+</Project>
