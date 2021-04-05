@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +24,7 @@ namespace Microsoft.AspNetCore.SpaProxy
             ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
         });
 
-        private Process _spaProcess;
+        private Process? _spaProcess;
         private bool _disposedValue;
 
         public SpaProxyLaunchManager(ILogger<SpaProxyLaunchManager> logger)
@@ -39,15 +39,15 @@ namespace Microsoft.AspNetCore.SpaProxy
 
         private class SpaDevelopmentServerOptions
         {
-            public string ServerUrl { get; set; }
+            public string ServerUrl { get; set; } = "";
 
-            public string LaunchCommand { get; set; }
+            public string LaunchCommand { get; set; } = "";
 
             public int MaxTimeoutInSeconds { get; set; }
 
             public TimeSpan MaxTimeout => TimeSpan.FromSeconds(MaxTimeoutInSeconds);
 
-            public string WorkingDirectory { get; set; }
+            public string WorkingDirectory { get; set; } = "";
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
