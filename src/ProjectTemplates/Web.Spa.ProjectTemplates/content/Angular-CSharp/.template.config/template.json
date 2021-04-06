@@ -34,8 +34,14 @@
             "Pages/Shared/_LoginPartial.cshtml",
             "Data/**",
             "Models/**",
-            "Client/src/api-authorization/**",
+            "ClientApp/src/api-authorization/**",
             "Controllers/OidcConfigurationController.cs"
+          ]
+        },
+        {
+          "condition": "(!RequiresHttps)",
+          "exclude": [
+            "ClientApp/aspnetcore-https.js"
           ]
         },
         {

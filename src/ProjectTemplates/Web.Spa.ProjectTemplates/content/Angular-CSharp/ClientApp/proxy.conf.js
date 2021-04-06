@@ -10,7 +10,11 @@ const PROXY_CONFIG = [
       "/ApplyDatabaseMigrations",
 //#endif
    ],
+//#if(RequiresHttps)
     target: "https://localhost:5001",
+//#else
+    target: "http://localhost:5000",
+//#endif
     secure: false
   }
 ]
