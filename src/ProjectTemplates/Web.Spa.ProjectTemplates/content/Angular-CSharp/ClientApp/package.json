@@ -3,11 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+//#if(RequiresHttps)
     "prestart": "node aspnetcore-https",
     "start": "run-script-os",
-    "start:windows": "ng serve --proxy-config proxy.conf.json --port 5002 --ssl --ssl-cert %APPDATA%\\ASP.NET\\https\\angularapp.pem --ssl-key %APPDATA%\\ASP.NET\\https\\angularapp.key",
-    "start:default": "ng serve --proxy-config proxy.conf.json --port 5002 --ssl --ssl-cert $HOME/.aspnet/https/angularapp.pem --ssl-key $HOME/.aspnet/https/angularapp.key",
-    "build": "ng build",
+    "start:windows": "ng serve --port 5002 --ssl --ssl-cert %APPDATA%\\ASP.NET\\https\\angularapp.pem --ssl-key %APPDATA%\\ASP.NET\\https\\angularapp.key",
+    "start:default": "ng serve --port 5002 --ssl --ssl-cert $HOME/.aspnet/https/angularapp.pem --ssl-key $HOME/.aspnet/https/angularapp.key",
+//#else
+    "start": "ng serve",
+//#endif
+"build": "ng build",
     "build:ssr": "ng run Company.WebApplication1:server:dev",
     "test": "ng test",
     "lint": "ng lint",
