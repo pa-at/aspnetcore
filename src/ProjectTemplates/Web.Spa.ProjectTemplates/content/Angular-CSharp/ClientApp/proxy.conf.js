@@ -1,13 +1,13 @@
 const PROXY_CONFIG = [
   {
     context: [
-      "/weatherforecast/**",
+      "/weatherforecast",
 //#if (IndividualLocalAuth)
-      "/_configuration/**",
-      "/.well-known/**",
-      "/Identity/**",
-      "/connect/**",
-      "/ApplyDatabaseMigrations/**",
+      "/_configuration",
+      "/.well-known",
+      "/Identity",
+      "/connect",
+      "/ApplyDatabaseMigrations",
 //#endif
    ],
     target: "https://localhost:5001",

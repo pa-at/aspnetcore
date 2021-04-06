@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Microsoft.AspNetCore.SpaProxy
 {
-    public class SpaHostingStartup : IHostingStartup
+    internal class SpaHostingStartup : IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)
         {

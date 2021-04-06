@@ -10,8 +10,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-[assembly: HostingStartup(typeof(Microsoft.AspNetCore.SpaProxy.SpaHostingStartup))]
-
 namespace Microsoft.AspNetCore.SpaProxy
 {
     internal class SpaProxyLaunchManager : IHostedService, IDisposable

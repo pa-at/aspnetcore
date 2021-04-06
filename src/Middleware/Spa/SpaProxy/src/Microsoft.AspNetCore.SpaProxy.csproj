@@ -1,20 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>$(DefaultNetCoreTargetFramework)</TargetFramework>
     <Nullable>enable</Nullable>
     <RemoveDevicePlatformSupport>true</RemoveDevicePlatformSupport>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
     <!-- This is ok since this assembly is not referenced by any application but it is loaded as a hosting startup
     assembly for apps referencing this package-->
-    <AddPublicApiAnalyzers>false</AddPublicApiAnalyzers>
-    <!-- Disable packaging warnings. It is ok to do this since we are doing it on purpose. We pack the output assembly
-         in the assets folder instead of on the lib folder because we don't want apps referencing this package to automatically
-         reference the assembly and we don't want to force people to use ReferenceOutputAssembly=false on the package ref.
-         Instead, we copy the assembly manually to the output folder when the proxy is enabled and gets loaded via the hosting
-         startup assemblies setting in the launchSettings.json. The assembly never ends up in the published output folder for the app
-         and the app doesn't have a refernce to it. -->
-    <NoWarn>NU5100;NU5128;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,9 +13,4 @@
     <None Update="build\Microsoft.AspNetCore.SpaProxy.targets" Pack="true" PackagePath="build\Microsoft.AspNetCore.SpaProxy.targets" />
   </ItemGroup>
 
-  <Target Name="_PrepareForPack" BeforeTargets="_GetPackageFiles">
-    <ItemGroup>
-      <None Include="@(IntermediateAssembly)" Pack="true" PackagePath="assets/Microsoft.AspNetCore.SpaProxy.dll" />
-    </ItemGroup>
-  </Target>
 </Project>
