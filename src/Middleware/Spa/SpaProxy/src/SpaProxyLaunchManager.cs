@@ -38,23 +38,10 @@ namespace Microsoft.AspNetCore.SpaProxy
             _logger = logger;
         }
 
-        private class SpaDevelopmentServerOptions
-        {
-            public string ServerUrl { get; set; } = "";
-
-            public string LaunchCommand { get; set; } = "";
-
-            public int MaxTimeoutInSeconds { get; set; }
-
-            public TimeSpan MaxTimeout => TimeSpan.FromSeconds(MaxTimeoutInSeconds);
-
-            public string WorkingDirectory { get; set; } = "";
-        }
-
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Starting SPA development server");
-            bool running = await ProbeSpaDevelopmentServerUrl(cancellationToken);
+            var running = await ProbeSpaDevelopmentServerUrl(cancellationToken);
             if (running)
             {
                 _logger.LogInformation($"Found SPA development server running at {_options.ServerUrl}");
@@ -70,10 +57,6 @@ namespace Microsoft.AspNetCore.SpaProxy
         {
             try
             {
-                // Wait 1 second before probing. While this unconditionally adds 1 second to the startup time,
-                // it makes sure that we don't send lots of requests and that we give the process some time to
-                // get up and running
-                await Task.Delay(1000);
                 var response = await _httpClient.GetAsync(_options.ServerUrl, cancellationToken);
                 var running = response.IsSuccessStatusCode;
                 return running;
@@ -91,14 +74,16 @@ namespace Microsoft.AspNetCore.SpaProxy
             var sw = Stopwatch.StartNew();
             var livenessProbeSucceeded = false;
             var maxTimeoutReached = false;
-
             while (_spaProcess != null && !_spaProcess.HasExited && !livenessProbeSucceeded && !maxTimeoutReached)
             {
                 livenessProbeSucceeded = await ProbeSpaDevelopmentServerUrl(cancellationToken);
-                if (!livenessProbeSucceeded)
+                if (livenessProbeSucceeded)
                 {
-                    maxTimeoutReached = sw.Elapsed >= _options.MaxTimeout;
+                    break;
                 }
+
+                maxTimeoutReached = sw.Elapsed >= _options.MaxTimeout;
+                await Task.Delay(1000);
             }
 
             if (_spaProcess == null || _spaProcess.HasExited)
@@ -132,6 +117,12 @@ namespace Microsoft.AspNetCore.SpaProxy
 
                 var info = new ProcessStartInfo(command, arguments)
                 {
+                    // Linux and Mac OS don't have the concept of launching a terminal process in a new window.
+                    // On those cases the process will be launched in the same terminal window and will just print
+                    // some output during the start phase of the app.
+                    // This is not a problem since users don't need to interact with the proxy other than to stop it
+                    // and this is only an optimization to keep the current experience. We can always tell them to
+                    // run the proxy manually.
                     CreateNoWindow = false,
                     UseShellExecute = true,
                     WindowStyle = ProcessWindowStyle.Normal,
@@ -147,6 +138,7 @@ namespace Microsoft.AspNetCore.SpaProxy
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
+            // We don't need to do anything here since Dispose will take care of cleaning up the process if necessary.
             return Task.CompletedTask;
         }
 
@@ -203,6 +195,19 @@ namespace Microsoft.AspNetCore.SpaProxy
         {
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
+        }
+
+        private class SpaDevelopmentServerOptions
+        {
+            public string ServerUrl { get; set; } = "";
+
+            public string LaunchCommand { get; set; } = "";
+
+            public int MaxTimeoutInSeconds { get; set; }
+
+            public TimeSpan MaxTimeout => TimeSpan.FromSeconds(MaxTimeoutInSeconds);
+
+            public string WorkingDirectory { get; set; } = "";
         }
     }
 }
