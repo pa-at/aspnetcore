@@ -4,7 +4,7 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 
 const baseFolder =
-  process.env.APPDATA !== ''
+  process.env.APPDATA !== undefined && process.env.APPDATA !== ''
     ? `${process.env.APPDATA}/ASP.NET/https`
     : `${process.env.HOME}/.aspnet/https`;
 
